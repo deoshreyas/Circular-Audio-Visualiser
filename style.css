@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #090000;
+    width: 100%;
+    height: 100%;
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+button {
+    position: absolute;
+    left: 1em;
+    bottom: 1em;
+    font-size: 1.5em;
+    padding: .1em;
+    border: 0;
+    outline: 0;
+    border-radius: 100em;
+    width: 2em;
+    height: 2em;
+}
