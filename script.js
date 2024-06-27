@@ -3,6 +3,13 @@ let music = new Audio("music.mp3"); // CHANGE THIS TO THE PATH TO YOUR MUSIC FIL
 let musicIcon = document.querySelector("#musicIcon");
 
 function musicStateChange() {
+    // Autoplay bug fix
+    if (music_ctx.state === "suspended") {
+        music_ctx.resume().then(() => {
+            console.log("AudioContext resumed!");
+        });
+    }
+    
     if (music.paused) {
         music.play();
         musicIcon.classList.remove("fa-play");
