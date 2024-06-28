@@ -1,6 +1,10 @@
-let music = new Audio("music.mp3"); // CHANGE THIS TO THE PATH TO YOUR MUSIC FILE
+let music = new Audio("music.mp3"); // Default music source
 
 let musicIcon = document.querySelector("#musicIcon");
+
+let animationFrameRequestID; // Global variable to keep track of the animation frame request ID
+
+let music_source = null;
 
 function musicStateChange() {
     // Autoplay bug fix
@@ -14,6 +18,7 @@ function musicStateChange() {
         music.play();
         musicIcon.classList.remove("fa-play");
         musicIcon.classList.add("fa-pause");
+        animateCircle();
     } else {
         music.pause();
         musicIcon.classList.remove("fa-pause");
@@ -30,7 +35,7 @@ const ctx = canvas.getContext("2d");
 
 // Set up audio
 const music_ctx = new (window.AudioContext || window.webkitAudioContext)();
-let music_source = music_ctx.createMediaElementSource(music);
+music_source = music_ctx.createMediaElementSource(music);
 let analyser = music_ctx.createAnalyser();
 music_source.connect(analyser);
 analyser.connect(music_ctx.destination);
@@ -76,7 +81,31 @@ function animateCircle() {
         ctx.stroke();
     }
 
-    requestAnimationFrame(animateCircle); // Loop
+    animationFrameRequestID = requestAnimationFrame(animateCircle); // Loop with global ID
 }
 
-animateCircle();
+document.querySelector("#musicInput").addEventListener("change", function() {
+    let musicInput = this.files[0]; // Get the selected file
+    if (musicInput) {
+        let musicURL = URL.createObjectURL(musicInput); // Create a URL for the file
+        music.src = musicURL; // Set the music source to the new URL
+        music.load(); // Reload the music to apply the new source
+
+        // Only create the MediaElementSourceNode if it hasn't been created before
+        if (!music_source) {
+            music_source = music_ctx.createMediaElementSource(music);
+            music_source.connect(analyser);
+            analyser.connect(music_ctx.destination);
+        }
+
+        // Optionally, restart the animation
+        if (window.animationFrameRequestID) {
+            cancelAnimationFrame(window.animationFrameRequestID); // Stop the current animation loop
+        }
+        animateCircle(); // Restart the animation
+    }
+});
+
+function changeMusicSource() {
+    document.querySelector("#musicInput").click(); // Trigger the file input
+}

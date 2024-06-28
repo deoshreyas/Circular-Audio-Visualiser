@@ -32,4 +32,20 @@ button {
     border-radius: 100em;
     width: 2em;
     height: 2em;
+    cursor: pointer;
+}
+
+button#musicInputBtn {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    left: calc(100vw - 1em - 2em);
+    font-size: 1.5em;
+    padding: .1em;
+    border: 0;
+    outline: 0;
+    border-radius: 100em;
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
 }
